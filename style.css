@@ -1,0 +1,228 @@
+* {
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
+    outline: none;
+}
+
+@font-face {
+    font-family: Montserrat;
+    src: url("montserrat/Montserrat-Regular.otf");
+}
+
+sup {
+    vertical-align: top;
+    position: relative;
+    top: -0.25em;
+}
+
+body {
+    font-family: Montserrat;
+}
+
+article {
+}
+
+section {
+    text-align: center;
+    padding-bottom: 6vh ;
+    background-image: linear-gradient(to right, var(--light-background) 0%, white 7%, white 93%, var(--light-background) 100%) ;
+}
+
+:root, section:nth-child(1) {
+    --light-background: #fccfcf;
+    --background: #fc8b8b;
+    --dark-background: #ff5757;
+    --footer-background: #bf57ff;
+}
+
+section:nth-child(2) {
+    --light-background: #ffe1c7;
+    --background: #fcc28b;
+    --dark-background: #ffab57;
+}
+
+section:nth-child(3) {
+    --light-background: #feffd6;
+    --background: #fafc8b;
+    --dark-background: #fbff00;
+}
+
+section:nth-child(4) {
+    --light-background: #cffcc9;
+    --background: #98fc8b;
+    --dark-background: #6bff57;
+}
+
+section:nth-child(5) {
+    --light-background: #cbfffc;
+    --background: #8bfcf4;
+    --dark-background: #57fff7;
+}
+
+section:nth-child(6) {
+    --light-background: #d2d0ff;
+    --background: #918bfc;
+    --dark-background: #5f57ff;
+}
+
+section:nth-child(7) {
+    --light-background: #e9c6ff;
+    --background: #d18bfc;
+    --dark-background: #bf57ff;
+}
+
+h1 {
+    text-align: center;
+    font-size: 48pt;
+    background-color: var(--dark-background);
+    padding: 5vh 0 2vh;
+}
+
+h1 #titleImage {
+    height: 20vh;
+    margin-bottom: 2vh;
+}
+
+h2 {
+    text-align: center;
+    font-size: 24pt;
+    background-color: var(--background);
+    padding: 2vh 0;
+}
+
+h5 {
+    text-align: center;
+    font-size: 18pt;
+    background-color: var(--dark-background);
+    padding: 2vh 0;
+}
+
+h3 {
+    display: block;
+    text-align: left;
+    font-size: 3.5vh;
+    margin-bottom: 2vw;
+    background-color: var(--dark-background);
+    border-bottom: 3vh solid var(--background);
+    padding: 12vh 10vw 1vh;
+}
+
+p {
+    font-size: 12pt;
+    margin: 0 15vw 2vw;
+    text-align: justify;
+    line-height: 1.5;
+}
+
+ol {
+    font-size: 12pt;
+    margin: 0 20vw 2vw;
+    text-align: left;
+    line-height: 1.5;
+}
+
+p.equation {
+    display: inline-block;
+    background-color: var(--background);
+    padding: 0 2vw;
+}
+
+section > img {
+    width: 30%;
+    margin-bottom: 2vw;
+}
+
+img.diagram {
+    width: 50%;
+}
+
+iframe {
+    display: block;
+    margin: 2vw auto;
+    border: 1px solid #ccc;
+}
+
+code {
+    display: block;
+    text-align: left;
+    padding: 20px;
+    margin: 0 auto 2vw;
+    width: 50%;
+    font-size: 14pt;
+    font-family: Consolas, 'Courier New', monospace;
+    background-color: var(--light-background);
+    border-radius: 5px;
+}
+
+table {
+    width: 70%;
+    margin: 2vw auto;
+}
+
+td img.gallery {
+    width: 90%;
+    display: block;
+    margin: auto;
+}
+
+#footerTransition {
+    height: 20vh;
+    margin-top: 10vh;
+    background-image: linear-gradient(#00000000, var(--footer-background));
+}
+
+footer {
+    text-align: center;
+    width: 100%;
+    padding-bottom: 5vh;
+    background-color: var(--footer-background);
+}
+
+div#coolButtons {
+    text-align: center;
+    margin: auto;
+    padding-top: 5vh;
+}
+
+div#coolButtons a {
+    display: inline-block;
+    width: 5vh;
+    height: 5vh;
+    margin: 0 0.5vw;
+    filter: opacity(0.75);
+}
+
+div#coolButtons a:hover {
+    filter: opacity(1);
+}
+
+div#coolButtons a img {
+    max-width: 100%;
+    max-height: 100%;
+    width: auto;
+    height: auto;
+}
+
+footer p {
+    color: white;
+    font-size: 2vh;
+    margin-top: 0.5vh;
+    text-align: center;
+    line-height: 1;
+    margin-bottom: 0;
+}
+
+footer p a {
+    transition: 0.2s;
+    color: white;
+    text-decoration: underline;
+    text-decoration-color: Transparent;
+    color: white;
+}
+
+footer p a:hover {
+    transition: 0.2s;
+    text-decoration-color: white;
+    cursor: pointer;
+}

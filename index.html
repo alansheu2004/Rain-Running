@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+
+<html>
+    <head>
+        <title>Rain-Running</title>
+
+        <link rel="apple-touch-icon" sizes="180x180" href="favicon/apple-touch-icon.png">
+        <link rel="icon" type="image/png" sizes="32x32" href="favicon/favicon-32x32.png">
+        <link rel="icon" type="image/png" sizes="16x16" href="favicon/favicon-16x16.png">
+        <link rel="manifest" href="favicon/site.webmanifest">
+
+        <link type="text/css" rel="stylesheet" href="style.css" />
+        <link type="text/css" rel="stylesheet" href="figure.css" />
+    </head>
+
+    <body>
+        <h5>by Alan Sheu</h5>
+        <h1>
+            <img id="titleImage" src="images/pidIcon.svg" />
+            <br />
+            Rain-Running
+        </h1>
+        <h2>Is it better to run in the rain?</h2>
+
+        <article>
+            <section>
+                <p style="padding-top: 3vw;">Like seriously, do you get wetter by running faster or slower in the rain?</p>
+
+                <p>On one hand, going slowly means you spend more time in the rain. On the other hand how does your velocity affect the amount of falling rain you run into horizontally?</p>
+
+                <p>Obviously, there's a limit to how fast you can run, and you're likely slip in a puddle and defeat the whole purpose of getting wet. But this is a theorical problem, and in the name of way overthinking things, let's find out!</p>
+            </section>
+
+            <section>
+                <h3>________<br/> Setting up the Problem</h3>
+
+                <p>We need to determine precisely what we mean in order to get a measurable result. That means a couple of parameters.</p>
+
+                <p>Let's go into a 2-D world just to simplify the math and simulation. Our body will be a rectangle of width \( w \) and height \( h \). We'll express the density of rain in the air as \( \sigma \). This could represent the discrete number of drops of rain or some continuous measure of volume or mass. Regardless, it's just some amount of water per unit area. Then we have the velocity \( v_r \) of the rain falling straight down and the distance \( D \) that we have to travel. We want to find the optimal running velocity \( v \) to minimize the amount of rain \( R \) we hit. Conventional signs with positive being to the right will be used.</p>
+
+                <p>Here's a little simulation of all that in action:</p>
+
+                <p>SIM</p>
+
+                <p>You might have noticed something interesting: the rate that rain that hits us vertically remains constant, and running forward causes us to run into the same "area" of rain. This means that solution to our problem is completely trivial, as we'll always run into the same amount of rain horizontally regardless of our velocity, meaning only the vertical component matters. With a constant vertical rate, we want to minimize the time spent running, and that just results in running as fast as possible.</p>
+
+                <p>But with rain comes the wind! On a windy day, the rain falls at an angle. We'll call \( \theta \) the angle of rainfall relative to the vector normal to the ground pointing straight down, with positive as counter-clockwise (the same direction as our velocity) and vice versa for negative. Note that we'll restrict the domain of \( \theta \) to \( [-\frac{\pi}{2},\frac{\pi}{2}] \), the range where the rain still falls downward.</p>
+
+                <p>Let's update our simulation to reflect that:</p>
+
+                <p>SIM</p>
+            </section>
+
+            <section>
+                <h3>________<br/> Creating some equations</h3>
+
+                <p>The math is pretty interesting in my opinion and involves some calculus, but nothing you can't find in any Calculus I course. The math isn't necessarily fundamental to the solution though, so feel free to skip the math and look at the graphs, full simulation and results <a>here</a>.</p>
+
+                <p>Very generally we can get the amount of rain we hit per second by taking the "area of rain" we run through every second and multiplying by the rainfall density. For us, we can get the area per second by multiplying the length of the edge colliding with the rain and multiply that by the velocity of that rain relative to the surface.</p>
+
+                <p>First, let's take a look at the vertical component, falling down on our top edge. The edge length is \( w \) and the velocity of the rain falling downward, with a bit of trigonometry, is \( v_r cos \theta \).</p>
+
+                <p>IMAGE OF TRIG</p>
+
+                <p>Mutiplying this rate by the amount of time gives us to total amount of rainfall we collide with vertically:</p>
+
+                <p class="equation">\[ R_v = \sigma w v_r t \cos \theta \]</p>
+
+                <p>But where's velocity? \( t \) is a function of \( v \) as changing the velocity changes the amount of time needed to travel that set distance. Using the substitution \( t = \frac{D}{v} \) gets us a function for the amount of rain in terms of velocity:</p>
+
+                <p class="equation">\[ R_v(v) = \frac{\sigma w v_r D \cos \theta}{v} \]</p>
+
+                <p>As a quick gut check, it makes sense that as we increase the density, width, rainfall velocity, or distance ran, we should be wetter. And just as we found before, it's inversely proportional to our own velocity, decreasing wetness as we run faster.</p>
+
+                <p>Next we have the horizontal component, which is a little more complicated. Let's first look at the case where the the angle is just straight down (\( \theta = 0\)). The edge is \( h \) and the velocity is entirely determined by how fast we run \( v \). We can apply the same logic as before:</p>
+
+                <p class="equation">\[ R_h(v) = \sigma h v t = \frac{\sigma h v D}{v} = \sigma h D \]</p>
+
+                <p>Again, it should make sense that when the rain falls straight down, the wetness is constant, as you're still going through the same area regardless of velocity. But why should this change with an angled rainfall?</p>
+
+                <p>The velocity of the rain hitting us with respect to the velocity edge is relative to that edge. We can think of the extreme case where \( theta = \frac{\pi}{2} \), or going straight to the right. If we were to go exactly at the speed of the rain, we'd never actually hit any rain as we travel with it. It's sort of like being in the eye of a hurricane, where going at the exact same speed as the cyclone with keep you out of the storm, but any faster or slower and you'll we swept up.</p>
+
+                <p>So instead of just \( v \), we need to compare it relatively to the horizontal velocity of the rain. That would mean \( v - v_r \sin \theta \). If the rain is travelling hornizontally faster than us though (\( v_r \sin \theta > v \)), this would make our term negative. That doesn't really make sense, as rain hitting us is still positive wetness regardless of which side we get hit. Therefore, we'll wrap an abolsute value around this velocity to make it always positive. Updating our new relative velocity term, we get:</p>
+
+                <p class="equation">\[ R_h(v) = \sigma h t \lvert v - v_r \sin \theta \rvert = \frac{ \sigma h D \lvert v - v_r \sin \theta \rvert }{v} \]</p>
+
+                <p>Note that the order of the terms in the abolute value doesnt matter as it will become positive regardless/ \( \lvert v - v_r \sin \theta \rvert \) could just as easily be \( \lvert v_r \sin \theta - v \rvert \).</p>
+
+                <p>Combining these two equations gets us this beast of a function:</p>
+
+                <p class="equation">\[ R(v) = \frac{\sigma w v_r D \cos \theta}{v} + \frac{ \sigma h D \lvert v - v_r \sin \theta \rvert }{v} \]</p>
+
+                <p>There's plenty of simplification to do, but importantly, we'll be splitting up the absolute value function into its piecewise definition to ease later analysis:</p>
+
+                <p class="equation">\[ \begin{aligned}
+                    R(v) 
+                    & = \frac{\sigma w v_r D \cos \theta}{v} + \frac{ \sigma h D \lvert v - v_r \sin \theta \rvert }{v} \\\\
+                    & = \begin{cases}
+                        \frac{\sigma w v_r D \cos \theta}{v} - \frac{ \sigma h D \left( v - v_r \sin \theta \right) }{v},  & \text{if  } v &lt; v_r \sin \theta \\
+                        \frac{\sigma w v_r D \cos \theta}{v} + \frac{ \sigma h D \left( v - v_r \sin \theta \right) }{v},  & \text{if  } v \geq v_r \sin \theta
+                    \end{cases} \\\\
+                    & = \begin{cases}
+                        \frac{\sigma w v_r D \cos \theta}{v} - \sigma h D + \frac{ \sigma h D \sin \theta }{v},  & \text{if  } v &lt; v_r \sin \theta \\
+                        \frac{\sigma w v_r D \cos \theta}{v} + \sigma h D - \frac{ \sigma h D \sin \theta }{v},  & \text{if  } v \geq v_r \sin \theta
+                    \end{cases} \\\\
+                    & = \begin{cases}
+                        \frac{\sigma D v_r}{v} \left( w \cos \theta + h \sin \theta \right) - \sigma D h,  & \text{if  } v &lt; v_r \sin \theta \\
+                        \frac{\sigma D v_r}{v} \left( w \cos \theta - h \sin \theta \right) + \sigma D h,  & \text{if  } v \geq v_r \sin \theta
+                    \end{cases} \\\\
+                    \end{aligned} \]
+                </p>
+
+                <p>While it may look like a lot of symbols, just remember, that every one of them except \( v \) is just a constant, and we have a relatively simple rational expression on our hands.</p>
+
+            </section>
+        </article>
+
+        <footer>
+            <div id="coolButtons">
+                <a href="https://github.com/alansheu2004"><img src="images/github.png" /></a>
+            </div>
+            <p>Phone: 1 (408)-218-0411</p>
+            <p>Email: <a href="mailto:alansheu2004@gmail.com">alansheu2004@gmail.com</a></p>
+            <p>Check out some other projects at <a href="https://alansheu2004.github.io">alansheu2004.github.io</a></p>
+        </footer>
+    </body>
+
+    <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+    <script id="MathJax-script" async
+          src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js">
+    </script>
+</html>
