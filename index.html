@@ -46,6 +46,10 @@
 
                 <p>But with rain comes the wind! On a windy day, the rain falls at an angle. We'll call \( \theta \) the angle of rainfall relative to the vector normal to the ground pointing straight down, with positive as counter-clockwise (the same direction as our velocity) and vice versa for negative. Note that we'll restrict the domain of \( \theta \) to \( [-\frac{\pi}{2},\frac{\pi}{2}] \), the range where the rain still falls downward.</p>
 
+                <p></p>But why should this change with an angled rainfall?</p>
+
+                <p>We can think of the extreme case where \( theta = \frac{\pi}{2} \), or going straight to the right. If we were to go exactly at the speed of the rain, we'd never actually hit any rain as we travel along with it. It's sort of like being in the eye of a hurricane, where going at the exact same speed as the cyclone with keep you out of the storm, but any faster or slower and you'll we swept up.
+
                 <p>Let's update our simulation to reflect that:</p>
 
                 <p>SIM</p>
@@ -76,11 +80,9 @@
 
                 <p class="equation">\[ R_h(v) = \sigma h v t = \frac{\sigma h v D}{v} = \sigma h D \]</p>
 
-                <p>Again, it should make sense that when the rain falls straight down, the wetness is constant, as you're still going through the same area regardless of velocity. But why should this change with an angled rainfall?</p>
+                <p>Again, it should make sense that when the rain falls straight down, the wetness is constant, as you're still going through the same area regardless of velocity.</p>
 
-                <p>The velocity of the rain hitting us with respect to the velocity edge is relative to that edge. We can think of the extreme case where \( theta = \frac{\pi}{2} \), or going straight to the right. If we were to go exactly at the speed of the rain, we'd never actually hit any rain as we travel with it. It's sort of like being in the eye of a hurricane, where going at the exact same speed as the cyclone with keep you out of the storm, but any faster or slower and you'll we swept up.</p>
-
-                <p>So instead of just \( v \), we need to compare it relatively to the horizontal velocity of the rain. That would mean \( v - v_r \sin \theta \). If the rain is travelling hornizontally faster than us though (\( v_r \sin \theta > v \)), this would make our term negative. That doesn't really make sense, as rain hitting us is still positive wetness regardless of which side we get hit. Therefore, we'll wrap an abolsute value around this velocity to make it always positive. Updating our new relative velocity term, we get:</p>
+                <p>When we start angling the rain, instead of just \( v \), we need to compare it relatively to the horizontal velocity of the rain. That would mean \( v - v_r \sin \theta \). If the rain is travelling hornizontally faster than us though (\( v_r \sin \theta > v \)), this would make our term negative. That doesn't really make sense, as rain hitting us is still positive wetness regardless of which side we get hit. Therefore, we'll wrap an abolsute value around this velocity to make it always positive. Updating our new relative velocity term, we get:</p>
 
                 <p class="equation">\[ R_h(v) = \sigma h t \lvert v - v_r \sin \theta \rvert = \frac{ \sigma h D \lvert v - v_r \sin \theta \rvert }{v} \]</p>
 
@@ -96,23 +98,70 @@
                     R(v) 
                     & = \frac{\sigma w v_r D \cos \theta}{v} + \frac{ \sigma h D \lvert v - v_r \sin \theta \rvert }{v} \\\\
                     & = \begin{cases}
-                        \frac{\sigma w v_r D \cos \theta}{v} - \frac{ \sigma h D \left( v - v_r \sin \theta \right) }{v},  & \text{if  } v &lt; v_r \sin \theta \\
+                        \frac{\sigma w v_r D \cos \theta}{v} - \frac{ \sigma h D \left( v - v_r \sin \theta \right) }{v},  & \text{if  } 0 &lt; v &lt; v_r \sin \theta \\
                         \frac{\sigma w v_r D \cos \theta}{v} + \frac{ \sigma h D \left( v - v_r \sin \theta \right) }{v},  & \text{if  } v \geq v_r \sin \theta
                     \end{cases} \\\\
                     & = \begin{cases}
-                        \frac{\sigma w v_r D \cos \theta}{v} - \sigma h D + \frac{ \sigma h D \sin \theta }{v},  & \text{if  } v &lt; v_r \sin \theta \\
+                        \frac{\sigma w v_r D \cos \theta}{v} - \sigma h D + \frac{ \sigma h D \sin \theta }{v},  & \text{if  } 0 &lt; v &lt; v_r \sin \theta \\
                         \frac{\sigma w v_r D \cos \theta}{v} + \sigma h D - \frac{ \sigma h D \sin \theta }{v},  & \text{if  } v \geq v_r \sin \theta
                     \end{cases} \\\\
                     & = \begin{cases}
-                        \frac{\sigma D v_r}{v} \left( w \cos \theta + h \sin \theta \right) - \sigma D h,  & \text{if  } v &lt; v_r \sin \theta \\
+                        \frac{\sigma D v_r}{v} \left( w \cos \theta + h \sin \theta \right) - \sigma D h,  & \text{if  } 0 &lt; v &lt; v_r \sin \theta \\
                         \frac{\sigma D v_r}{v} \left( w \cos \theta - h \sin \theta \right) + \sigma D h,  & \text{if  } v \geq v_r \sin \theta
                     \end{cases} \\\\
                     \end{aligned} \]
                 </p>
 
-                <p>While it may look like a lot of symbols, just remember, that every one of them except \( v \) is just a constant, and we have a relatively simple rational expression on our hands.</p>
+                <p>Notice that we've restricted the domain of velocity to the positive numbers to avoid negative and undefined time.</p>
+
+                <p>Go back to the conditions we set for the piecewise. What happens when \( v_r \sin \theta &lt; 0 \), equivalent to when \( \theta &lt; 0 \)? Then the inequality doesn't make sense. In that case, only the right piece is even expressed at all. We can reqrite our equation more precisely then as:</p>
+
+                <p class="equation">\[ R'(v) = 
+                    \begin{cases}
+                        \frac{\sigma D v_r}{v} \left( w \cos \theta + h \sin \theta \right) - \sigma D h,  & \text{if  } \theta \geq 0, 0 &lt; v &lt; v_r \sin \theta \\
+                        \frac{\sigma D v_r}{v} \left( w \cos \theta - h \sin \theta \right) + \sigma D h,  & \text{if  } \theta \geq 0, v \geq v_r \sin \theta \\
+                        \frac{\sigma D v_r}{v} \left( w \cos \theta - h \sin \theta \right) + \sigma D h,  & \text{if  } \theta &lt; 0, v &gt; 0
+                    \end{cases}
+                     \]
+                </p>
+
+                <p>Okay, the equation looks like a mess and it's hard to dispute that it isnt. While it may look like a lot of symbols, just remember, that every one of them except \( v \) is just a constant, and each piece is just a relatively simple rational expression.The conditions look like some weird multivariable mess, the one that involves \( \theta \) you can think of as different cases for when the constant angle is positive or negative, and only the \( v \) part acts as the domains of each piece.</p>
 
             </section>
+
+            <section>
+                <h3>________<br/> Calculating a solution: with Calculus!</h3>
+
+                <p>If you have an aversion to math, now's your last chance to move on! This section will be focusing on finding the solution analytically, and the following section will look into the graphs. Depending on your preferences, it may be more intuitive to take a look at those graphs before returning to this section.</p>
+
+                <p>First, note that \( R(v) \) is continuous over our interval \( \left( 0, \infty \right) \). Each piece of our function is essentially a rational function disconinuous at \( v = 0 \), which is outside the domain of \( v \). When \\( theta \geq 0 \), at \( v = r_v \sin \theta \) where the two pieces meet, evaluating the limit on either side yields the same \( \sigma D w \cot \theta \), which you could do yourself if you wanted to.</p>
+
+                <p>Finding the minimum of the function involves analyzing the sign of the derivative. This is why we split up the absolute value earlier, allowing us to just use the power rule on each piece, treating all other variables as constants.</p>
+
+                <p class="equation">\[ R'(v) = 
+                    \begin{cases}
+                        -\frac{\sigma D v_r}{v^2} \left( w \cos \theta + h \sin \theta \right),  & \text{if  } \theta \geq 0, 0 &lt; v &lt; v_r \sin \theta \\
+                        -\frac{\sigma D v_r}{v^2} \left( w \cos \theta - h \sin \theta \right),  & \text{if  } \theta \geq 0, v &gt; v_r \sin \theta \\
+                        -\frac{\sigma D v_r}{v^2} \left( w \cos \theta - h \sin \theta \right),  & \text{if  } \theta &lt; 0, v &gt; 0
+                    \end{cases} \]
+                </p>
+
+                <p>Let's first look at the case where \( \theta &lt; 0 \), aka the bottom-most expression. \(\sigma\), \(D\), \(v_r\), and \(v^2\) must all be positive (assuming of course that \(v\) is not a complex number, which would quite turn the tables). As for \( \left( w \cos \theta - h \sin \theta \right) \), we know that \(w\) and \(h\) are both positive. Since the angle is restricted to  negative numbers, we can cut its domain to \( \left( -\frac{\pi}{2}, 0 \right) \), just the fourth quadrant. Cosine is always positive in the fourth quadrant while sine is always negative, meaning that \( \left( w \cos \theta - h \sin \theta \right) \) will always be positive. Tacking on the negative sign,  we find that when \( \theta &lt; 0 \), \(R'(v)\) is always negative.</p>
+
+                <p>Well what can we gain from that? If the derivative is always negative, then the \(R(v)\) is monotonically (always) decreasing on its entire domain, meaning the lowest point is necessarily at \( v = \infty \). In essence, if the rain is angled against the direction of your, just run as fast as possible to get the least wet!</p>
+
+                <p>When \( \theta \geq 0 \), we need to break out the piecewise party! We can restrict the domain of \(\theta\) to \( \left[ 0, \frac{\pi}{2} \right) \), or the first quadrant, where both sine and cosine are positive. The same logic as before applies to all the constants.</p>
+                
+                <p>In the left piece at the top where \( v &lt; v_r \sin \theta \), \(\left( w \cos \theta + h \sin \theta \right)\) will always be positive as both sine and cosine are positive; therefore, \(R'(v)\) is negative, showing that over the left half, the right-most point \( v = v_r \sin \theta\) is the minimum.</p>
+
+                <p>The right piece in the middle where \( v \geq v_r \sin \theta \) is more complicated, as the sine and cosine term don't work in the same direction. At \( \theta = 0 \), the \(\left( w \cos \theta - h \sin \theta \right)\) reduces to \( w \cos 0 = w \), a positive value, while at \( \theta = \frac{\pi}{2} \), the expression reduces to \(\left( - h \sin \frac{\pi}{2} \right) = -h \), a negative value. Sine and cosine are both continuous, so the Intermediate Value Theorem guarantees that the expression crosses 0 from positive to negative at some point. Solving for when it crosses 0:</p>
+
+                <p class="equation">\[ \begin{aligned}
+                    w \cos \theta - h \sin \theta & = 0
+                    w \cos \theta & = h \sin \theta
+                    \frac{w}{h} & = \frac{\sin \theta}{\cos \theta}
+                    \end{aligned} \]
+                </p>
         </article>
 
         <footer>
