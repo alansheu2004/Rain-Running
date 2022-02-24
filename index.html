@@ -32,11 +32,11 @@
             </section>
 
             <section>
-                <h3>________<br/> Setting up the Problem</h3>
+                <h3>________<br/> I'm sorry, what?</h3>
 
-                <p>We need to determine precisely what we mean in order to get a measurable result. That means a couple of parameters.</p>
+                <p>Okay, so what do we precisely mean by the question?</p>
 
-                <p>Let's go into a 2-D world just to simplify the math and simulation. Our body will be a rectangle of width \( w \) and height \( h \). We'll express the density of rain in the air as \( \sigma \). This could represent the discrete number of drops of rain or some continuous measure of volume or mass. Regardless, it's just some amount of water per unit area. Then we have the velocity \( v_r \) of the rain falling straight down and the distance \( D \) that we have to travel. We want to find the optimal running velocity \( v \) to minimize the amount of rain \( R \) we hit. Conventional signs with positive being to the right will be used.</p>
+                <p>Let's use a 2-D world just to simplify the math and simulation. Our body will be a rectangle of width \( w \) and height \( h \). We'll express the density of rain in the air as \( \sigma \). This could represent the discrete number of drops of rain or some continuous measure of volume or mass. Regardless, it's just some amount of water per unit area. Then we have the velocity \( v_r \) of the rain falling straight down and the distance \( D \) that we have to travel. We want to find the optimal running velocity \( v \) to minimize the amount of rain \( R \) we hit. Conventional signs with positive being to the right will be used.</p>
 
                 <p>Here's a little simulation of all that in action:</p>
 
@@ -56,7 +56,7 @@
             </section>
 
             <section>
-                <h3>________<br/> Creating some equations</h3>
+                <h3>________<br/> (Rain)dropping Down some Equations</h3>
 
                 <p>The math is pretty interesting in my opinion and involves some calculus, but nothing you can't find in any Calculus I course. The math isn't necessarily fundamental to the solution though, so feel free to skip the math and look at the graphs, full simulation and results <a>here</a>.</p>
 
@@ -68,11 +68,11 @@
 
                 <p>Mutiplying this rate by the amount of time gives us to total amount of rainfall we collide with vertically:</p>
 
-                <p class="equation">\[ R_v = \sigma w v_r t \cos \theta \]</p>
+                <p class="equation">\[ v_r = \sigma w v_r t \cos \theta \]</p>
 
                 <p>But where's velocity? \( t \) is a function of \( v \) as changing the velocity changes the amount of time needed to travel that set distance. Using the substitution \( t = \frac{D}{v} \) gets us a function for the amount of rain in terms of velocity:</p>
 
-                <p class="equation">\[ R_v(v) = \frac{\sigma w v_r D \cos \theta}{v} \]</p>
+                <p class="equation">\[ v_r(v) = \frac{\sigma w v_r D \cos \theta}{v} \]</p>
 
                 <p>As a quick gut check, it makes sense that as we increase the density, width, rainfall velocity, or distance ran, we should be wetter. And just as we found before, it's inversely proportional to our own velocity, decreasing wetness as we run faster.</p>
 
@@ -114,7 +114,7 @@
 
                 <p>Notice that we've restricted the domain of velocity to the positive numbers to avoid negative and undefined time.</p>
 
-                <p>Go back to the conditions we set for the piecewise. What happens when \( v_r \sin \theta &lt; 0 \), equivalent to when \( \theta &lt; 0 \)? Then the inequality doesn't make sense. In that case, only the right piece is even expressed at all. We can reqrite our equation more precisely then as:</p>
+                <p>Go back to the conditions we set for the piecewise. What happens when \( v_r \sin \theta &lt; 0 \), equivalent to when \( \theta &lt; 0 \)? Then the inequality doesn't make sense. In that case, only the right piece is even expressed at all. We can rewrite our equation more precisely then as:</p>
 
                 <p class="equation">\[ R'(v) = 
                     \begin{cases}
@@ -130,11 +130,11 @@
             </section>
 
             <section>
-                <h3>________<br/> Calculating a solution: with Calculus!</h3>
+                <h3>________<br/> Slippery, Slippery Slopes</h3>
 
-                <p>If you have an aversion to math, now's your last chance to move on! This section will be focusing on finding the solution analytically, and the following section will look into the graphs. Depending on your preferences, it may be more intuitive to take a look at those graphs before returning to this section.</p>
+                <p>If you have an aversion to math, now's your last chance to move on! This section will be focusing on finding the solution analytically, and the following section will look into the graphs. Depending on your preferences, it may be more intuitive to take a look at those graphs before returning to this section or just skip this section altogether.</p>
 
-                <p>First, note that \( R(v) \) is continuous over our interval \( \left( 0, \infty \right) \). Each piece of our function is essentially a rational function disconinuous at \( v = 0 \), which is outside the domain of \( v \). When \\( theta \geq 0 \), at \( v = r_v \sin \theta \) where the two pieces meet, evaluating the limit on either side yields the same \( \sigma D w \cot \theta \), which you could do yourself if you wanted to.</p>
+                <p>First, note that \( R(v) \) is continuous over our interval \( \left( 0, \infty \right) \). Each piece of our function is essentially a rational function disconinuous at \( v = 0 \), which is outside the domain of \( v \). When \( \theta \geq 0 \), at \( v = v_r \sin \theta \) where the two pieces meet, evaluating the limit on either side yields the same \( \sigma D w \cot \theta \), which you could do yourself if you wanted to.</p>
 
                 <p>Finding the minimum of the function involves analyzing the sign of the derivative. This is why we split up the absolute value earlier, allowing us to just use the power rule on each piece, treating all other variables as constants.</p>
 
@@ -146,22 +146,113 @@
                     \end{cases} \]
                 </p>
 
-                <p>Let's first look at the case where \( \theta &lt; 0 \), aka the bottom-most expression. \(\sigma\), \(D\), \(v_r\), and \(v^2\) must all be positive (assuming of course that \(v\) is not a complex number, which would quite turn the tables). As for \( \left( w \cos \theta - h \sin \theta \right) \), we know that \(w\) and \(h\) are both positive. Since the angle is restricted to  negative numbers, we can cut its domain to \( \left( -\frac{\pi}{2}, 0 \right) \), just the fourth quadrant. Cosine is always positive in the fourth quadrant while sine is always negative, meaning that \( \left( w \cos \theta - h \sin \theta \right) \) will always be positive. Tacking on the negative sign,  we find that when \( \theta &lt; 0 \), \(R'(v)\) is always negative.</p>
+                <p>Let's first look at the case where \( \theta &lt; 0 \), aka the bottom-most expression. \(\sigma\), \(D\), \(v_r\), and \(v^2\) must all be positive (assuming of course that \(v\) is not a complex number, which would quite turn the tables). As for \( \left( w \cos \theta - h \sin \theta \right) \), we know that \(w\) and \(h\) are both positive. Since the angle is restricted to  negative numbers, we can cut its domain to \( \left[ -\frac{\pi}{2}, 0 \right) \), just the fourth quadrant. Cosine is always positive in the fourth quadrant while sine is always negative, meaning that \( \left( w \cos \theta - h \sin \theta \right) \) will always be positive. Tacking on the negative sign,  we find that when \( \theta &lt; 0 \), \(R'(v)\) is always negative.</p>
 
                 <p>Well what can we gain from that? If the derivative is always negative, then the \(R(v)\) is monotonically (always) decreasing on its entire domain, meaning the lowest point is necessarily at \( v = \infty \). In essence, if the rain is angled against the direction of your, just run as fast as possible to get the least wet!</p>
 
-                <p>When \( \theta \geq 0 \), we need to break out the piecewise party! We can restrict the domain of \(\theta\) to \( \left[ 0, \frac{\pi}{2} \right) \), or the first quadrant, where both sine and cosine are positive. The same logic as before applies to all the constants.</p>
+                <p>When \( \theta \geq 0 \), we need to break out the piecewise party! We can restrict the domain of \(\theta\) to \( \left[ 0, \frac{\pi}{2} \right] \), or the first quadrant, where both sine and cosine are positive. The same logic as before applies to all the constants.</p>
                 
                 <p>In the left piece at the top where \( v &lt; v_r \sin \theta \), \(\left( w \cos \theta + h \sin \theta \right)\) will always be positive as both sine and cosine are positive; therefore, \(R'(v)\) is negative, showing that over the left half, the right-most point \( v = v_r \sin \theta\) is the minimum.</p>
 
                 <p>The right piece in the middle where \( v \geq v_r \sin \theta \) is more complicated, as the sine and cosine term don't work in the same direction. At \( \theta = 0 \), the \(\left( w \cos \theta - h \sin \theta \right)\) reduces to \( w \cos 0 = w \), a positive value, while at \( \theta = \frac{\pi}{2} \), the expression reduces to \(\left( - h \sin \frac{\pi}{2} \right) = -h \), a negative value. Sine and cosine are both continuous, so the Intermediate Value Theorem guarantees that the expression crosses 0 from positive to negative at some point. Solving for when it crosses 0:</p>
 
                 <p class="equation">\[ \begin{aligned}
-                    w \cos \theta - h \sin \theta & = 0
-                    w \cos \theta & = h \sin \theta
-                    \frac{w}{h} & = \frac{\sin \theta}{\cos \theta}
+                    0 & = w \cos \theta - h \sin \theta \\\\
+                    h \sin \theta & = w \cos \theta \\\\
+                    \frac{\sin \theta}{\cos \theta} = \tan \theta & = \frac{w}{h}  \\\\
+                    \theta & = \tan^{-1} \frac{w}{h}
                     \end{aligned} \]
                 </p>
+
+                <p>Just to confirm that this makes sense, \(\frac{w}{h}\) is positive, so \(\theta\) would land in the first quadrant like we expect based on the range of arctangent.</p>
+
+                <p>Going back, \(\left( w \cos \theta - h \sin \theta \right)\) is therefore positive for \(\theta\) on \( \left[ 0, \tan^{-1} \frac{w}{h} \right) \), negative on \( \left( \tan^{-1} \frac{w}{h}, \frac{\pi}{2} \right) \), and exactly zero when \( \theta = \tan^{-1} \frac{w}{h} \). Taking into account the negative sign, we have to invert them to get the sign of \(R'(v)\).</p>
+
+                <p>Wrapping it all up for positive rainfall angles, when \(\theta &lt; \tan^{-1} \frac{w}{h} \),  \(R'(v)\) is entirely negative, setting a minimum for \(R(v)\) at infinity, just like when \(\theta\) was negative. When \(\theta &gt; \tan^{-1} \frac{w}{h} \), \(R'(v)\) is negative to the left of \(v_r \sin \theta \) and positive to the right, setting a mininum at \( v = v_r \sin \theta \). On the very small offchance where \( \theta = \tan^{-1} \frac{w}{h} \), \(R'(v)\) is completely flat to the right of \(v_r \sin \theta \), meaning any running velocity faster than \(v_r \sin \theta \) will be the minumum.</p>
+
+                <p>To summarize, here are the optimal running velocities given different conditions:</p>
+
+                <p class="equation">\[ \begin{aligned}
+                    & \text{If } \theta &lt; \tan^{-1} \frac{w}{h}, \text{ run as fast as you can.} \\\\ 
+                    & \text{If } \theta &gt; \tan^{-1} \frac{w}{h}, \text{ run at the velocity }  v_r \sin \theta. \\\\
+                    & \text{If } \theta = \tan^{-1} \frac{w}{h}, \text{ run at any velocity} \geq v_r \sin \theta.
+                    \end{aligned} \]
+                </p>
+
+                <p>Notably, only our dimensions and the angle and velocity of rainfall are important to determining optimal running speed, and the rain density and travel distance have no bearing. On second thought, that actually makes sense.</p>
+
+                <p>Now we could actually calculate how wet we'd be, but to be honest, I've done enough calculus and algebra to want to burn all my old AP Calculus FRQs at this point (at least more than I wanted to before). You can just plug in numbers to find those if you're interested. Instead, let's take a look at what those graphs look like and actually begin dragging around some sliders!</p>
+            </section>
+
+            <section>
+                <h3>________<br/> Graphs Rain Supreme</h3>
+
+                <p>We've mathmatically explored the question to arrive at a solution, but what does it actually look like? Earlier, we derived an equation for wetness as a function of veocity: </p>
+
+                <p class="equation">\[ \begin{aligned}
+                    R(v) & = \frac{\sigma w v_r D \cos \theta}{v} + \frac{ \sigma h D \lvert v - v_r \sin \theta \rvert }{v} \\\\
+                    & =
+                    \begin{cases}
+                        \frac{\sigma D v_r}{v} \left( w \cos \theta + h \sin \theta \right) - \sigma D h,  & \text{if  } \theta \geq 0, 0 &lt; v &lt; v_r \sin \theta \\
+                        \frac{\sigma D v_r}{v} \left( w \cos \theta - h \sin \theta \right) + \sigma D h,  & \text{if  } \theta \geq 0, v \geq v_r \sin \theta \\
+                        \frac{\sigma D v_r}{v} \left( w \cos \theta - h \sin \theta \right) + \sigma D h,  & \text{if  } \theta &lt; 0, v &gt; 0
+                    \end{cases}
+                    \end{aligned}\]
+                </p>
+
+                <p>Here's what the graph of that function looks like. Play around with the different sliders to see their effect on the minimum velocity or wetness.</p>
+
+                <iframe src="https://www.desmos.com/calculator/f8w7zzetrh" width="800" height="500" frameborder=0></iframe>
+
+                <p>What do you think of it? You might notice that most of the time, the function is composed of two joined rational curves joined at a corner. There are 3 main cases and an additional "improbable" fourth one:</p>
+
+                <table>
+                    <tr>
+                        <td>
+                            <img src="images/case1.png" alt="Case 1" class="gallery" />
+                            <small>Case 1: \( -\frac{\pi}{2} \leq \theta \leq 0 \)</small>
+                        </td>
+                        <td>
+                            <img src="images/case2.png" alt="Case 2" class="gallery" />
+                            <small>Case 2: \( 0 &lt; \theta &lt; \tan^{-1} \frac{w}{h} \)</small>
+                        </td>
+                        <td>
+                            <img src="images/case3.png" alt="Case 3" class="gallery" />
+                            <small>Case 3: \(  \tan^{-1} \frac{w}{h} &lt; \theta \leq \frac{\pi}{2} \)</small>
+                        </td>
+                        <td>
+                            <img src="images/case4.png" alt="Case 4" class="gallery" />
+                            <small>Case 4: \( \theta = \tan^{-1} \frac{w}{h} \)</small>
+                        </td>
+                    </tr>
+                </table>
+
+                <p>In the first case. the rain is going straight down or against the direction of travel. We can see the function is always decreasing, so it would be advantageous to run as fast as possible.</p>
+
+                <p>In the second and third, the rain is going in the same direction of travel. There's a pivotal point at \( \theta = \tan^{-1} \frac{w}{h} \). When the angle is less than this value, it's still better to run as fast as possible, but at angles greater, the optimal point becomes the vertex at \( v = v_r \sin \theta \). In the very specific case where the angle is exactly at that pivotal point, the slope is flat afterwards, making any velocity beyond the vertex optimal.</p>
+
+                <p>What's so special about these specific values though?</p>
+
+                <p>With \( v = v_r \sin \theta \), it's simply the horizontal speed of the rain. Similarly to the hurricane analogy, running at the same horizontal speed of the rain allows us to run with the wind and actually avoid getting wet from the sides.</p>
+
+                <p>For \( \theta = \tan^{-1} \frac{w}{h} \), some trigonometry shows us that that angle is the angle of our diagonal across the rectangle. Case 2 and Case 3 thus essentially depend on whether the rainfall angle is shallower or steeper than us.</p>
+
+                <p>RAIN</p>
+
+                <p>One way to think of it is that when the rain is steeper ( \( \theta \) is small), the the vertical component hitting the \( w \) of the rectangle outweighs the horizontal component, but when the rain is shallower ( \( \theta \) is small), the opposite is true.</p>
+
+                <p>Hopefully the math sections have provided a rigorous analysis of the problem while this graphical section has given an intuition for the solutions. As you probably presume though, this is not very useful information. "Running as fast as possible" is never a good idea when it's raining, and any time spent out with a protractor measuring the angle of the rain is time much better spent getting out of it. It's still a fun thought excersize though.</p>
+            </section>
+
+            <section>
+                <h3>________<br/> Percipitation Simulation Humiliation</h3>
+
+                <p>Here's a simulation to show it all fitting together. The "Animation" tab shows an animation of individual runs, while the "Statistics" tab runs through hundreds of simulations to greate an experimental graph. How well do they align with our theoretical graphs?</p>
+
+                <p>Go wild!</p>
+
+                <p>SIM</p>
+            </section>
         </article>
 
         <footer>
