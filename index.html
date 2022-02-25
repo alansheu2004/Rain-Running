@@ -16,7 +16,7 @@
     <body>
         <h5>by Alan Sheu</h5>
         <h1>
-            <img id="titleImage" src="images/pidIcon.svg" />
+            <img id="titleImage" src="images/rainIcon.svg" />
             <br />
             Rain-Running
         </h1>
@@ -38,9 +38,49 @@
 
                 <p>Let's use a 2-D world just to simplify the math and simulation. Our body will be a rectangle of width \( w \) and height \( h \). We'll express the density of rain in the air as \( \sigma \). This could represent the discrete number of drops of rain or some continuous measure of volume or mass. Regardless, it's just some amount of water per unit area. Then we have the velocity \( v_r \) of the rain falling straight down and the distance \( D \) that we have to travel. We want to find the optimal running velocity \( v \) to minimize the amount of rain \( R \) we hit. Conventional signs with positive being to the right will be used.</p>
 
-                <p>Here's a little simulation of all that in action:</p>
+                <p>Here are all those factors in action:</p>
 
-                <p>SIM</p>
+                <figure id="sim1">
+                    <div class="graphPanel">
+                        <canvas class="canvas" width="600" height="450"></canvas>
+                    </div>
+
+                    <div class="optPanel">
+                        <h4>Parameters</h4>
+                        <label>Character Width (\(w\)):</label>
+                        <div class="inputGroup">
+                            <input id="w1" class="wInput" type="range" min="0.1" max="2" step="0.1" value="1.0">
+                            <label for="w1"></label>
+                        </div>
+                        <label>Character Height (\(h\)):</label>
+                        <div class="inputGroup">
+                            <input id="h1" class="hInput" type="range" min="0.1" max="2" step="0.1" value="1.5">
+                            <label for="h1"></label>
+                        </div>
+                        <label>Character Velocity (\(v_r\)):</label>
+                        <div class="inputGroup">
+                            <input id="v1" class="vInput" type="range" min="0" max="5" step="0.1" value="2.5">
+                            <label for="v1"></label>
+                        </div>
+                        <hr />
+                        <label>Rain Density (\(\sigma\)):</label>
+                        <div class="inputGroup">
+                            <input id="s1" class="sInput" type="range" min="0" max="10" step="0.1" value="5.0">
+                            <label for="s1"></label>
+                        </div>
+                        <label>Rainfall Speed (\(v_r\)):</label>
+                        <div class="inputGroup">
+                            <input id="vr1" class="vrInput" type="range" min="0.1" max="10" step="0.1" value="5.0">
+                            <label for="vr1"></label>
+                        </div>
+                        <hr />
+                        <label>Travel Distance (\(D\)):</label>
+                        <div class="inputGroup">
+                            <input id="d1" class="dInput" type="range" min="1" max="20" step="0.1" value="10.0">
+                            <label for="d1"></label>
+                        </div>
+                    </div>
+                </figure>
 
                 <p>You might have noticed something interesting: the rate that rain that hits us vertically remains constant, and running forward causes us to run into the same "area" of rain. This means that solution to our problem is completely trivial, as we'll always run into the same amount of rain horizontally regardless of our velocity, meaning only the vertical component matters. With a constant vertical rate, we want to minimize the time spent running, and that just results in running as fast as possible.</p>
 
@@ -273,6 +313,9 @@
             <p>Check out some other projects at <a href="https://alansheu2004.github.io">alansheu2004.github.io</a></p>
         </footer>
     </body>
+
+    <script src="sliders.js"></script>
+    <script src="sim.js"></script>
 
     <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
     <script id="MathJax-script" async

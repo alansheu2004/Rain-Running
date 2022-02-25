@@ -8,26 +8,17 @@ figure {
 
 div.graphPanel {
     flex: 3 1 0;
-    padding: 2vw 10vw;
+    padding: 2vw 5vw;
     text-align: center;
     overflow-x: hidden;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 
-div[class$="Bar"] {
-    position: relative;
-    border-bottom: 2px solid black;
-    width: 2px;
-    left: 50%;
-}
-
-img.car {
-    height: 50px;
-    position: relative;
-}
-
-input.spSlider {
-    display: block;
+figure canvas {
     width: 100%;
+    border-bottom: 3px solid black;
 }
 
 canvas.graph {
