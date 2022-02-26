@@ -49,34 +49,34 @@
                         <h4>Parameters</h4>
                         <label>Character Width (\(w\)):</label>
                         <div class="inputGroup">
-                            <input id="w1" class="wInput" type="range" min="0.1" max="2" step="0.1" value="1.0">
+                            <input id="w1" class="wInput" type="range" min="0.1" max="2" step="0.01" value="1.0">
                             <label for="w1"></label>
                         </div>
                         <label>Character Height (\(h\)):</label>
                         <div class="inputGroup">
-                            <input id="h1" class="hInput" type="range" min="0.1" max="2" step="0.1" value="1.5">
+                            <input id="h1" class="hInput" type="range" min="0.1" max="2" step="0.01" value="1.5">
                             <label for="h1"></label>
                         </div>
                         <label>Character Velocity (\(v_r\)):</label>
                         <div class="inputGroup">
-                            <input id="v1" class="vInput" type="range" min="0" max="5" step="0.1" value="2.5">
+                            <input id="v1" class="vInput" type="range" min="0" max="5" step="0.01" value="2.5">
                             <label for="v1"></label>
                         </div>
                         <hr />
                         <label>Rain Density (\(\sigma\)):</label>
                         <div class="inputGroup">
-                            <input id="s1" class="sInput" type="range" min="0" max="10" step="0.1" value="5.0">
+                            <input id="s1" class="sInput" type="range" min="0" max="10" step="0.01" value="5.0">
                             <label for="s1"></label>
                         </div>
                         <label>Rainfall Speed (\(v_r\)):</label>
                         <div class="inputGroup">
-                            <input id="vr1" class="vrInput" type="range" min="0.1" max="10" step="0.1" value="5.0">
+                            <input id="vr1" class="vrInput" type="range" min="0.1" max="10" step="0.01" value="5.0">
                             <label for="vr1"></label>
                         </div>
                         <hr />
                         <label>Travel Distance (\(D\)):</label>
                         <div class="inputGroup">
-                            <input id="d1" class="dInput" type="range" min="1" max="20" step="0.1" value="10.0">
+                            <input id="d1" class="dInput" type="range" min="1" max="20" step="0.01" value="10.0">
                             <label for="d1"></label>
                         </div>
                     </div>
@@ -101,40 +101,40 @@
                         <h4>Parameters</h4>
                         <label>Character Width (\(w\)):</label>
                         <div class="inputGroup">
-                            <input id="w2" class="wInput" type="range" min="0.1" max="2" step="0.1" value="1.0">
+                            <input id="w2" class="wInput" type="range" min="0.1" max="2" step="0.01" value="1.0">
                             <label for="w2"></label>
                         </div>
                         <label>Character Height (\(h\)):</label>
                         <div class="inputGroup">
-                            <input id="h2" class="hInput" type="range" min="0.1" max="2" step="0.1" value="1.5">
+                            <input id="h2" class="hInput" type="range" min="0.1" max="2" step="0.01" value="1.5">
                             <label for="h2"></label>
                         </div>
                         <label>Character Velocity (\(v_r\)):</label>
                         <div class="inputGroup">
-                            <input id="v2" class="vInput" type="range" min="0" max="5" step="0.1" value="2.5">
+                            <input id="v2" class="vInput" type="range" min="0" max="5" step="0.01" value="2.5">
                             <label for="v2"></label>
                         </div>
                         <hr />
                         <label>Rain Density (\(\sigma\)):</label>
                         <div class="inputGroup">
-                            <input id="s2" class="sInput" type="range" min="0" max="10" step="0.1" value="5.0">
+                            <input id="s2" class="sInput" type="range" min="0" max="10" step="0.01" value="5.0">
                             <label for="s2"></label>
                         </div>
                         <label>Rainfall Speed (\(v_r\)):</label>
                         <div class="inputGroup">
-                            <input id="vr2" class="vrInput" type="range" min="0.1" max="10" step="0.1" value="5.0">
+                            <input id="vr2" class="vrInput" type="range" min="0.1" max="10" step="0.01" value="5.0">
                             <label for="vr2"></label>
                         </div>
                         <label>Rainfall Angle (\(v_r\)):</label>
                         <div class="inputGroup">
-                            <input id="t2" class="tInput" type="range" min="-0.5" max="0.5" step="0.1" value="0.1">
+                            <input id="t2" class="tInput" type="range" min="-0.5" max="0.5" step="0.01" value="0.1">
                             <label for="t2"></label>
                             <label style="flex:0 0 1em">\(\pi\)</label>
                         </div>
                         <hr />
                         <label>Travel Distance (\(D\)):</label>
                         <div class="inputGroup">
-                            <input id="d2" class="dInput" type="range" min="1" max="20" step="0.1" value="10.0">
+                            <input id="d2" class="dInput" type="range" min="1" max="20" step="0.01" value="10.0">
                             <label for="d2"></label>
                         </div>
                     </div>
@@ -289,7 +289,50 @@
 
                 <p>Here's what the graph of that function looks like. Play around with the different sliders to see their effect on the minimum velocity or wetness.</p>
 
-                <iframe src="https://www.desmos.com/calculator/f8w7zzetrh" width="800" height="500" frameborder=0></iframe>
+                <figure id="graph3">
+                    <div class="graphPanel">
+                        <p style="margin: 10px 0;">Wetness (\(R(v)\))</p>
+                        <canvas style="display:inline-block" class="canvas" width="600" height="450"></canvas>
+                        <p style="text-align: right; margin: 10px 0">Running Velocity (\(v\))</p>
+                    </div>
+
+                    <div class="optPanel">
+                        <h4>Parameters</h4>
+                        <label>Character Width (\(w\)):</label>
+                        <div class="inputGroup">
+                            <input id="w3" class="wInput" type="range" min="0.1" max="2" step="0.01" value=".75">
+                            <label for="w3"></label>
+                        </div>
+                        <label>Character Height (\(h\)):</label>
+                        <div class="inputGroup">
+                            <input id="h3" class="hInput" type="range" min="0.1" max="2" step="0.01" value="1.5">
+                            <label for="h3"></label>
+                        </div>
+                        <hr />
+                        <label>Rain Density (\(\sigma\)):</label>
+                        <div class="inputGroup">
+                            <input id="s3" class="sInput" type="range" min="0" max="10" step="0.01" value="5.0">
+                            <label for="s3"></label>
+                        </div>
+                        <label>Rainfall Speed (\(v_r\)):</label>
+                        <div class="inputGroup">
+                            <input id="vr3" class="vrInput" type="range" min="0.1" max="10" step="0.01" value="5.0">
+                            <label for="vr3"></label>
+                        </div>
+                        <label>Rainfall Angle (\(v_r\)):</label>
+                        <div class="inputGroup">
+                            <input id="t3" class="tInput" type="range" min="-0.5" max="0.5" step="0.01" value="0.2">
+                            <label for="t3"></label>
+                            <label style="flex:0 0 1em">\(\pi\)</label>
+                        </div>
+                        <hr />
+                        <label>Travel Distance (\(D\)):</label>
+                        <div class="inputGroup">
+                            <input id="d3" class="dInput" type="range" min="1" max="20" step="0.01" value="10.0">
+                            <label for="d3"></label>
+                        </div>
+                    </div>
+                </figure>
 
                 <p>What do you think of it? You might notice that most of the time, the function is composed of two joined rational curves joined at a corner. There are 3 main cases and an additional "improbable" fourth one:</p>
 
@@ -314,7 +357,7 @@
                     </tr>
                 </table>
 
-                <p>In the first case. the rain is going straight down or against the direction of travel. We can see the function is always decreasing, so it would be advantageous to run as fast as possible.</p>
+                <p>In the first case. the rain is going straight down or against the direction of travel. We can see the function is always decreasing, so it would be advantageous to run as fast as possible. This is the scenario we outlined before.</p>
 
                 <p>In the second and third, the rain is going in the same direction of travel. There's a pivotal point at \( \theta = \tan^{-1} \frac{w}{h} \). When the angle is less than this value, it's still better to run as fast as possible, but at angles greater, the optimal point becomes the vertex at \( v = v_r \sin \theta \). In the very specific case where the angle is exactly at that pivotal point, the slope is flat afterwards, making any velocity beyond the vertex optimal.</p>
 
@@ -345,7 +388,7 @@
 
                 <p>Hopefully you've found this problem as interesting as I have! Or at least indulged in my ranting. I tried to give the math sections a rigorous numerical analysis of the problem while the graphical section has given a visual intuition for the problem. </p>
                 
-                <p>As you most assuredly alreaday know though, it's not very useful information. "Running as fast as possible" is never a good idea when it's raining, and any time spent out with a protractor measuring the angle of the rain is time much better spent getting out of it. I like to think it's still a fun thought excersise!</p>
+                <p>As you most assuredly alreaday know though, it's not very useful information. "Running as fast as possible" is never a good idea when it's raining, and any time spent out with a protractor measuring the angle of the rain is time much better spent getting out of it. Not to mention that in real world conditions, the effect of running in the rain would likely be miniscule, shaving a couple percents off of wetness. I like to think it's still a fun thought excersise!</p>
 
                 <div id="footerTransition"></div>
             </section>

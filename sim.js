@@ -95,7 +95,6 @@ function Sim(figureId) {
             drop.x += thisSim.getRainVelocity()*(thisSim.interval/1000)*Math.sin(thisSim.getAngle());
             drop.y += thisSim.getRainVelocity()*(thisSim.interval/1000)*Math.cos(thisSim.getAngle());
             if(drop.y > canvas.height/ppu) {
-                console.log("i")
                 deleteList.push(drop);
             }
             if(drop.x <= thisSim.currentPos+3 && drop.x >= thisSim.currentPos+3-thisSim.getCharWidth() && 
@@ -149,8 +148,72 @@ function isElementInViewport (el) {
     );
 }
 
+function Graph(figureId) {
+    let thisSim = this;
+
+    this.figureId = figureId;
+    this.figure = document.getElementById(figureId);
+    
+    this.canvas = document.querySelector("#" + figureId + " .canvas");
+    let canvas = this.canvas;
+    let context = this.canvas.getContext('2d');
+    this.ppux = 50;
+    this.ppuy = 1.5;
+    let ppux = this.ppux;
+    let ppuy = this.ppuy;
+
+    this.getCharWidth = function() {return parseFloat(document.querySelector("#" + figureId + " .wInput").value)};
+    this.getCharHeight = function() {return parseFloat(document.querySelector("#" + figureId + " .hInput").value)};
+    this.getRainVelocity = function() {return parseFloat(document.querySelector("#" + figureId + " .vrInput").value)};
+    this.getDensity = function() {return parseFloat(document.querySelector("#" + figureId + " .sInput").value)};
+    this.getDistance = function() {return parseFloat(document.querySelector("#" + figureId + " .dInput").value)};
+    if(document.querySelector("#" + figureId + " .tInput") != null) {
+        this.getAngle = function() {return parseFloat(document.querySelector("#" + figureId + " .tInput").value)*Math.PI}
+    } else {
+        this.getAngle = function() {return 0};
+    }
+
+
+    this.R = function(v) {
+        s = thisSim.getDensity();
+        w = thisSim.getCharWidth();
+        h = thisSim.getCharHeight();
+        vr = thisSim.getRainVelocity();
+        D = thisSim.getDistance();
+        t = thisSim.getAngle();
+
+        return s*w*vr*D*Math.cos(t)/v + s*h*D*Math.abs(v-vr*Math.sin(t))/v;
+    }
+
+    this.update = function() {
+        context.clearRect(0,0,canvas.width,canvas.height);
+
+        context.fillStyle = "blue";
+        context.strokeStyle = "blue";
+
+        context.lineWidth = 3;
+        context.beginPath();
+        context.moveTo(1, canvas.height - thisSim.R(1/ppux)*ppuy);
+        for (i=2; i<=canvas.width; i++) {
+            context.lineTo(i, canvas.height - thisSim.R(i/ppux)*ppuy);
+        }
+        context.stroke();
+    }
+
+    
+    document.querySelector("#" + figureId + " .wInput").addEventListener("input", this.update);
+    document.querySelector("#" + figureId + " .hInput").addEventListener("input", this.update);
+    document.querySelector("#" + figureId + " .vrInput").addEventListener("input", this.update);
+    document.querySelector("#" + figureId + " .tInput").addEventListener("input", this.update);
+    document.querySelector("#" + figureId + " .sInput").addEventListener("input", this.update);
+    document.querySelector("#" + figureId + " .dInput").addEventListener("input", this.update);
+
+    this.update();
+}
+
 var sim1 = new Sim("sim1");
 var sim2 = new Sim("sim2");
+var graph3 = new Graph("graph3");
 
 // function Sim(figureId, getAcc, adjustAcc, adjustVel, adjustPV) {
 //     sims.push(this);
