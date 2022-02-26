@@ -86,13 +86,60 @@
 
                 <p>But with rain comes the wind! On a windy day, the rain falls at an angle. We'll call \( \theta \) the angle of rainfall relative to the vector normal to the ground pointing straight down, with positive as counter-clockwise (the same direction as our velocity) and vice versa for negative. Note that we'll restrict the domain of \( \theta \) to \( [-\frac{\pi}{2},\frac{\pi}{2}] \), the range where the rain still falls downward.</p>
 
-                <p></p>But why should this change with an angled rainfall?</p>
+                <p>But why should this change with an angled rainfall?</p>
 
-                <p>We can think of the extreme case where \( theta = \frac{\pi}{2} \), or going straight to the right. If we were to go exactly at the speed of the rain, we'd never actually hit any rain as we travel along with it. It's sort of like being in the eye of a hurricane, where going at the exact same speed as the cyclone with keep you out of the storm, but any faster or slower and you'll we swept up.
+                <p>We can think of the extreme case where \( \theta = \frac{\pi}{2} \), or going straight to the right. If we were to go exactly at the speed of the rain, we'd never actually hit any rain as we travel along with it. It's sort of like being in the eye of a hurricane, where going at the exact same speed as the cyclone with keep you out of the storm, but any faster or slower and you'll we swept up.
 
                 <p>Let's update our simulation to reflect that:</p>
 
-                <p>SIM</p>
+                <figure id="sim2">
+                    <div class="graphPanel">
+                        <canvas class="canvas" width="600" height="450"></canvas>
+                    </div>
+
+                    <div class="optPanel">
+                        <h4>Parameters</h4>
+                        <label>Character Width (\(w\)):</label>
+                        <div class="inputGroup">
+                            <input id="w2" class="wInput" type="range" min="0.1" max="2" step="0.1" value="1.0">
+                            <label for="w2"></label>
+                        </div>
+                        <label>Character Height (\(h\)):</label>
+                        <div class="inputGroup">
+                            <input id="h2" class="hInput" type="range" min="0.1" max="2" step="0.1" value="1.5">
+                            <label for="h2"></label>
+                        </div>
+                        <label>Character Velocity (\(v_r\)):</label>
+                        <div class="inputGroup">
+                            <input id="v2" class="vInput" type="range" min="0" max="5" step="0.1" value="2.5">
+                            <label for="v2"></label>
+                        </div>
+                        <hr />
+                        <label>Rain Density (\(\sigma\)):</label>
+                        <div class="inputGroup">
+                            <input id="s2" class="sInput" type="range" min="0" max="10" step="0.1" value="5.0">
+                            <label for="s2"></label>
+                        </div>
+                        <label>Rainfall Speed (\(v_r\)):</label>
+                        <div class="inputGroup">
+                            <input id="vr2" class="vrInput" type="range" min="0.1" max="10" step="0.1" value="5.0">
+                            <label for="vr2"></label>
+                        </div>
+                        <label>Rainfall Angle (\(v_r\)):</label>
+                        <div class="inputGroup">
+                            <input id="t2" class="tInput" type="range" min="-0.5" max="0.5" step="0.1" value="0.1">
+                            <label for="t2"></label>
+                            <label style="flex:0 0 1em">\(\pi\)</label>
+                        </div>
+                        <hr />
+                        <label>Travel Distance (\(D\)):</label>
+                        <div class="inputGroup">
+                            <input id="d2" class="dInput" type="range" min="1" max="20" step="0.1" value="10.0">
+                            <label for="d2"></label>
+                        </div>
+                    </div>
+                </figure>
+
             </section>
 
             <section>
@@ -108,11 +155,11 @@
 
                 <p>Mutiplying this rate by the amount of time gives us to total amount of rainfall we collide with vertically:</p>
 
-                <p class="equation">\[ v_r = \sigma w v_r t \cos \theta \]</p>
+                <p class="equation">\[ R_v = \sigma w v_r t \cos \theta \]</p>
 
                 <p>But where's velocity? \( t \) is a function of \( v \) as changing the velocity changes the amount of time needed to travel that set distance. Using the substitution \( t = \frac{D}{v} \) gets us a function for the amount of rain in terms of velocity:</p>
 
-                <p class="equation">\[ v_r(v) = \frac{\sigma w v_r D \cos \theta}{v} \]</p>
+                <p class="equation">\[ R_v(v) = \frac{\sigma w v_r D \cos \theta}{v} \]</p>
 
                 <p>As a quick gut check, it makes sense that as we increase the density, width, rainfall velocity, or distance ran, we should be wetter. And just as we found before, it's inversely proportional to our own velocity, decreasing wetness as we run faster.</p>
 
@@ -130,7 +177,7 @@
 
                 <p>Combining these two equations gets us this beast of a function:</p>
 
-                <p class="equation">\[ R(v) = \frac{\sigma w v_r D \cos \theta}{v} + \frac{ \sigma h D \lvert v - v_r \sin \theta \rvert }{v} \]</p>
+                <p class="equation">\[ R(v) = R_v(v) + R_h(v) = \frac{\sigma w v_r D \cos \theta}{v} + \frac{ \sigma h D \lvert v - v_r \sin \theta \rvert }{v} \]</p>
 
                 <p>There's plenty of simplification to do, but importantly, we'll be splitting up the absolute value function into its piecewise definition to ease later analysis:</p>
 

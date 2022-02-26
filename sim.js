@@ -19,7 +19,11 @@ function Sim(figureId) {
     this.getRainVelocity = function() {return parseFloat(document.querySelector("#" + figureId + " .vrInput").value)};
     this.getDensity = function() {return parseFloat(document.querySelector("#" + figureId + " .sInput").value)};
     this.getDistance = function() {return parseFloat(document.querySelector("#" + figureId + " .dInput").value)};
-    this.getAngle = function() {return parseFloat(document.querySelector("#" + figureId + " .tInput").value || 0)};
+    if(document.querySelector("#" + figureId + " .tInput") != null) {
+        this.getAngle = function() {return parseFloat(document.querySelector("#" + figureId + " .tInput").value)*Math.PI}
+    } else {
+        this.getAngle = function() {return 0};
+    }
 
     this.interval = 50;
     this.countdown = 1000;
@@ -62,18 +66,36 @@ function Sim(figureId) {
         context.fill();
         context.stroke();
 
-        let grain = 2;
+        let grain = 1;
         for(let i=0; i<=canvas.width; i+=grain) {
-            if(Math.random() < thisSim.getDensity()*grain*thisSim.getRainVelocity()*(thisSim.interval/1000)/ppu) {
+            if(Math.random() < thisSim.getDensity()*grain*Math.cos(thisSim.getAngle())*thisSim.getRainVelocity()*(thisSim.interval/1000)/ppu) {
                 thisSim.drops.push({x:i/ppu+Math.random()*grain, y:Math.random()*thisSim.getRainVelocity()*(thisSim.interval/1000)});
+            }
+        }
+
+        if(thisSim.getAngle() != 0) {
+            if(thisSim.getAngle() > 0) {
+                for(let i=0; i<=canvas.height; i+=grain) {
+                    if(Math.random() < thisSim.getDensity()*grain*Math.sin(thisSim.getAngle())*thisSim.getRainVelocity()*(thisSim.interval/1000)/ppu) {
+                        thisSim.drops.push({x:Math.random()*thisSim.getRainVelocity()*(thisSim.interval/1000), y:i/ppu+Math.random()*grain});
+                    }
+                }
+            } else {
+                for(let i=0; i<=canvas.height; i+=grain) {
+                    if(Math.random() < -thisSim.getDensity()*grain*Math.sin(thisSim.getAngle())*thisSim.getRainVelocity()*(thisSim.interval/1000)/ppu) {
+                        thisSim.drops.push({x:25-Math.random()*thisSim.getRainVelocity()*(thisSim.interval/1000), y:i/ppu+Math.random()*grain});
+                    }
+                }
             }
         }
 
         let deleteList = [];
 
         for(let drop of thisSim.drops) {
-            drop.y += thisSim.getRainVelocity()*(thisSim.interval/1000);
-            if(drop.y > canvas.height/ppu || drop.x < 0 || drop.x > canvas.width/ppu) {
+            drop.x += thisSim.getRainVelocity()*(thisSim.interval/1000)*Math.sin(thisSim.getAngle());
+            drop.y += thisSim.getRainVelocity()*(thisSim.interval/1000)*Math.cos(thisSim.getAngle());
+            if(drop.y > canvas.height/ppu) {
+                console.log("i")
                 deleteList.push(drop);
             }
             if(drop.x <= thisSim.currentPos+3 && drop.x >= thisSim.currentPos+3-thisSim.getCharWidth() && 
@@ -94,7 +116,7 @@ function Sim(figureId) {
         for(let drop of thisSim.drops) {
             context.beginPath();
             context.moveTo(drop.x*ppu, drop.y*ppu);
-            context.lineTo(drop.x*ppu, drop.y*ppu - 5);
+            context.lineTo(drop.x*ppu - 5*Math.sin(thisSim.getAngle()), drop.y*ppu - 5*Math.cos(thisSim.getAngle()));
             context.stroke();
         }
 
@@ -119,15 +141,16 @@ function isElementInViewport (el) {
 
     var rect = el.getBoundingClientRect();
 
-    return !(
+    return (
         rect.bottom >= 0 &&
         rect.right >= 0 &&
         rect.top <= (window.innerHeight || document.documentElement.clientHeight) && /* or $(window).height() */
-        rect.keft <= (window.innerWidth || document.documentElement.clientWidth) /* or $(window).width() */
+        rect.left <= (window.innerWidth || document.documentElement.clientWidth) /* or $(window).width() */
     );
 }
 
-var sim1 = new Sim("sim1")
+var sim1 = new Sim("sim1");
+var sim2 = new Sim("sim2");
 
 // function Sim(figureId, getAcc, adjustAcc, adjustVel, adjustPV) {
 //     sims.push(this);
