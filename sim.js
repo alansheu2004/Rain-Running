@@ -28,18 +28,24 @@ function Sim(figureId) {
     this.interval = 50;
     this.countdown = 1000;
     this.drops = [];
+    this.wetness = 0;
+
+    if(thisSim.figureId == "sim4") {
+        document.getElementById("wet4").textContent = "Wetness: " + thisSim.wetness;
+    }
+
+    let grain = 1;
+
+    for(let i=0; i<=canvas.width; i+=grain) {
+        for(let j=0; j<=canvas.height; j+=grain) {
+            if(Math.random() < thisSim.getDensity()*grain*grain/(ppu*ppu)) {
+                thisSim.drops.push({x:i/ppu+Math.random()*grain, y:j/ppu+Math.random()*grain});
+            }
+        }
+    }
 
     this.update = function() {
         thisSim.currentPos += thisSim.getVelocity()*(thisSim.interval/1000);
-        if(thisSim.currentPos > thisSim.getDistance()) {
-            if(thisSim.countdown > 0) {
-                thisSim.currentPos = thisSim.getDistance();
-                thisSim.countdown -= thisSim.interval;
-            } else {
-                thisSim.currentPos = 0;
-                thisSim.countdown = 1000;
-            }
-        }
 
         context.clearRect(0,0,canvas.width,canvas.height);
 
@@ -66,7 +72,6 @@ function Sim(figureId) {
         context.fill();
         context.stroke();
 
-        let grain = 1;
         for(let i=0; i<=canvas.width; i+=grain) {
             if(Math.random() < thisSim.getDensity()*grain*Math.cos(thisSim.getAngle())*thisSim.getRainVelocity()*(thisSim.interval/1000)/ppu) {
                 thisSim.drops.push({x:i/ppu+Math.random()*grain, y:Math.random()*thisSim.getRainVelocity()*(thisSim.interval/1000)});
@@ -100,6 +105,7 @@ function Sim(figureId) {
             if(drop.x <= thisSim.currentPos+3 && drop.x >= thisSim.currentPos+3-thisSim.getCharWidth() && 
                 drop.y >= canvas.height/ppu - thisSim.getCharHeight()) {
                 deleteList.push(drop);
+                thisSim.wetness++;
             }
         }
 
@@ -122,6 +128,22 @@ function Sim(figureId) {
         context.fillStyle = "red";
         context.lineWidth = 0;
         context.fillRect(thisSim.toPX(thisSim.currentPos), canvas.height, -thisSim.getCharWidth()*ppu, -thisSim.getCharHeight()*ppu);
+
+        if(thisSim.currentPos > thisSim.getDistance()) {
+            if(thisSim.countdown > 0) {
+                thisSim.currentPos = thisSim.getDistance();
+                thisSim.countdown -= thisSim.interval;
+            } else {
+                thisSim.currentPos = 0;
+                thisSim.countdown = 1000;
+                thisSim.wetness = 0;
+            }
+        } else {
+            if(thisSim.figureId == "sim4") {
+                document.getElementById("wet4").textContent = "Wetness: " + thisSim.wetness;
+            }
+            thisSim.countdown = 1000;
+        }
     }
 
     window.setInterval(function() {
@@ -214,6 +236,7 @@ function Graph(figureId) {
 var sim1 = new Sim("sim1");
 var sim2 = new Sim("sim2");
 var graph3 = new Graph("graph3");
+var sim4 = new Sim("sim4");
 
 // function Sim(figureId, getAcc, adjustAcc, adjustVel, adjustPV) {
 //     sims.push(this);

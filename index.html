@@ -49,7 +49,7 @@
                         <h4>Parameters</h4>
                         <label>Character Width (\(w\)):</label>
                         <div class="inputGroup">
-                            <input id="w1" class="wInput" type="range" min="0.1" max="2" step="0.01" value="1.0">
+                            <input id="w1" class="wInput" type="range" min="0.1" max="2" step="0.01" value="0.75">
                             <label for="w1"></label>
                         </div>
                         <label>Character Height (\(h\)):</label>
@@ -101,7 +101,7 @@
                         <h4>Parameters</h4>
                         <label>Character Width (\(w\)):</label>
                         <div class="inputGroup">
-                            <input id="w2" class="wInput" type="range" min="0.1" max="2" step="0.01" value="1.0">
+                            <input id="w2" class="wInput" type="range" min="0.1" max="2" step="0.01" value="0.75">
                             <label for="w2"></label>
                         </div>
                         <label>Character Height (\(h\)):</label>
@@ -127,7 +127,7 @@
                         </div>
                         <label>Rainfall Angle (\(v_r\)):</label>
                         <div class="inputGroup">
-                            <input id="t2" class="tInput" type="range" min="-0.5" max="0.5" step="0.01" value="0.1">
+                            <input id="t2" class="tInput" type="range" min="-0.5" max="0.5" step="0.01" value="0.2">
                             <label for="t2"></label>
                             <label style="flex:0 0 1em">\(\pi\)</label>
                         </div>
@@ -151,7 +151,7 @@
 
                 <p>First, let's take a look at the vertical component, falling down on our top edge. The edge length is \( w \) and the velocity of the rain falling downward, with a bit of trigonometry, is \( v_r cos \theta \).</p>
 
-                <p>IMAGE OF TRIG</p>
+                <img alt="Trignonometry of Rain Angle" src="images/rainTrig.svg" />
 
                 <p>Mutiplying this rate by the amount of time gives us to total amount of rainfall we collide with vertically:</p>
 
@@ -365,9 +365,9 @@
 
                 <p>With \( v = v_r \sin \theta \), it's simply the horizontal speed of the rain. Similarly to the hurricane analogy, running at the same horizontal speed of the rain allows us to run with the wind and actually avoid getting wet from the sides.</p>
 
-                <p>For \( \theta = \tan^{-1} \frac{w}{h} \), some trigonometry shows us that that angle is the angle of our diagonal across the rectangle. Case 2 and Case 3 thus essentially depend on whether the rainfall angle is shallower or steeper than us.</p>
+                <p>For \( \theta = \tan^{-1} \frac{w}{h} \), some trigonometry shows us that that angle is the angle of our diagonal across the rectangle. Case 2 and Case 3 thus essentially depend on whether the rainfall angle is shallower or steeper than the diagonal.</p>
 
-                <p>RAIN</p>
+                <img alt="Rain Angle" src="images/rainAngle.svg" />
 
                 <p>One way to think of it is that when the rain is steeper ( \( \theta \) is small), the the vertical component hitting the \( w \) of the rectangle outweighs the horizontal component, but when the rain is shallower ( \( \theta \) is small), the opposite is true.</p>
 
@@ -376,11 +376,101 @@
             <section>
                 <h3>________<br/> Percipitation Simulation Humiliation</h3>
 
-                <p>Here's a simulation to show it all fitting together. The "Animation" tab shows an animation of individual runs, while the "Statistics" tab runs through hundreds of simulations to greate an experimental graph. How well do they align with our theoretical graphs?</p>
+                <p>Here's a simulation to show it all fitting together. The "Animation" tab shows an animation of individual runs, while the "Statistics" tab runs through hundreds of simulations to generate experimental results. How well do they align with our theoretical graphs?</p>
 
                 <p>Go wild!</p>
 
-                <p>SIM</p>
+                <figure id="sim4">
+                    <div class="graphPanel">
+                        <canvas class="canvas" width="600" height="450"></canvas>
+                        <p id="wet4"></p>
+                    </div>
+
+                    <div class="optPanel">
+                        <h4>Parameters</h4>
+                        <label>Character Width (\(w\)):</label>
+                        <div class="inputGroup">
+                            <input id="w4" class="wInput" type="range" min="0.1" max="2" step="0.01" value="0.75">
+                            <label for="w4"></label>
+                        </div>
+                        <label>Character Height (\(h\)):</label>
+                        <div class="inputGroup">
+                            <input id="h4" class="hInput" type="range" min="0.1" max="2" step="0.01" value="1.5">
+                            <label for="h4"></label>
+                        </div>
+                        <label>Character Velocity (\(v_r\)):</label>
+                        <div class="inputGroup">
+                            <input id="v4" class="vInput" type="range" min="0" max="5" step="0.01" value="2.5">
+                            <label for="v4"></label>
+                        </div>
+                        <hr />
+                        <label>Rain Density (\(\sigma\)):</label>
+                        <div class="inputGroup">
+                            <input id="s4" class="sInput" type="range" min="0" max="10" step="0.01" value="5.0">
+                            <label for="s4"></label>
+                        </div>
+                        <label>Rainfall Speed (\(v_r\)):</label>
+                        <div class="inputGroup">
+                            <input id="vr4" class="vrInput" type="range" min="0.1" max="10" step="0.01" value="5.0">
+                            <label for="vr4"></label>
+                        </div>
+                        <label>Rainfall Angle (\(v_r\)):</label>
+                        <div class="inputGroup">
+                            <input id="t4" class="tInput" type="range" min="-0.5" max="0.5" step="0.01" value="0.2">
+                            <label for="t4"></label>
+                            <label style="flex:0 0 1em">\(\pi\)</label>
+                        </div>
+                        <hr />
+                        <label>Travel Distance (\(D\)):</label>
+                        <div class="inputGroup">
+                            <input id="d4" class="dInput" type="range" min="1" max="20" step="0.01" value="10.0">
+                            <label for="d4"></label>
+                        </div>
+                    </div>
+                </figure>
+
+                <figure id="graph5">
+                    <div class="graphPanel">
+                        <canvas class="canvas" width="600" height="450"></canvas>
+                    </div>
+
+                    <div class="optPanel">
+                        <h4>Parameters</h4>
+                        <label>Character Width (\(w\)):</label>
+                        <div class="inputGroup">
+                            <input id="w5" class="wInput" type="range" min="0.1" max="2" step="0.01" value="0.75">
+                            <label for="w5"></label>
+                        </div>
+                        <label>Character Height (\(h\)):</label>
+                        <div class="inputGroup">
+                            <input id="h5" class="hInput" type="range" min="0.1" max="2" step="0.01" value="1.5">
+                            <label for="h5"></label>
+                        </div>
+                        <hr />
+                        <label>Rain Density (\(\sigma\)):</label>
+                        <div class="inputGroup">
+                            <input id="s5" class="sInput" type="range" min="0" max="10" step="0.01" value="5.0">
+                            <label for="s5"></label>
+                        </div>
+                        <label>Rainfall Speed (\(v_r\)):</label>
+                        <div class="inputGroup">
+                            <input id="vr5" class="vrInput" type="range" min="0.1" max="10" step="0.01" value="5.0">
+                            <label for="vr5"></label>
+                        </div>
+                        <label>Rainfall Angle (\(v_r\)):</label>
+                        <div class="inputGroup">
+                            <input id="t5" class="tInput" type="range" min="-0.5" max="0.5" step="0.01" value="0.2">
+                            <label for="t5"></label>
+                            <label style="flex:0 0 1em">\(\pi\)</label>
+                        </div>
+                        <hr />
+                        <label>Travel Distance (\(D\)):</label>
+                        <div class="inputGroup">
+                            <input id="d5" class="dInput" type="range" min="1" max="20" step="0.01" value="10.0">
+                            <label for="d5"></label>
+                        </div>
+                    </div>
+                </figure>
             </section>
 
             <section style="padding-bottom: 0">
