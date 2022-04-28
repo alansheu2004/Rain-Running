@@ -27,7 +27,7 @@ function Sim(figureId) {
         this.getAngle = function() {return 0};
     }
 
-    this.interval = 25;
+    this.interval = 50;
     this.countdown = 1000;
     this.drops = [];
     this.wetness = 0;
@@ -298,7 +298,7 @@ function GraphExp(figureId) {
         context.stroke();
     }
 
-    this.counter = 10;
+    this.counter = 20;
 
     this.reset = function() {
         thisSim.values = [];
@@ -306,7 +306,7 @@ function GraphExp(figureId) {
             thisSim.values.push([]);
         }
         thisSim.update();
-        thisSim.counter = 10;
+        thisSim.counter = 20;
     }
 
     this.play = function() {
@@ -414,15 +414,11 @@ var graph5 = new GraphExp("graph5");
 
 
 function animation() {
-    animation.disabled = true;
-    statistics.disabled = false;
     sim4.figure.style.display = "flex";
     graph5.figure.style.display = "none";
 }
 
 function statistics() {
-    animation.disabled = false;
-    statistics.disabled = true;
     sim4.figure.style.display = "none";
     graph5.figure.style.display = "flex";
 }
