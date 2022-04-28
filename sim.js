@@ -1,3 +1,5 @@
+const average = (array) => array.length > 0 ? array.reduce((a, b) => a + b) / array.length : 0;
+
 function Sim(figureId) {
     let thisSim = this;
 
@@ -25,7 +27,7 @@ function Sim(figureId) {
         this.getAngle = function() {return 0};
     }
 
-    this.interval = 50;
+    this.interval = 25;
     this.countdown = 1000;
     this.drops = [];
     this.wetness = 0;
@@ -167,7 +169,7 @@ function isElementInViewport (el) {
         rect.right >= 0 &&
         rect.top <= (window.innerHeight || document.documentElement.clientHeight) && /* or $(window).height() */
         rect.left <= (window.innerWidth || document.documentElement.clientWidth) /* or $(window).width() */
-    );
+    ) && el.style.display != "none";
 }
 
 function Graph(figureId) {
@@ -216,7 +218,7 @@ function Graph(figureId) {
         context.lineWidth = 3;
         context.beginPath();
         context.moveTo(1, canvas.height - thisSim.R(1/ppux)*ppuy);
-        for (i=2; i<=canvas.width; i++) {
+        for (i=1; i<=canvas.width; i++) {
             context.lineTo(i, canvas.height - thisSim.R(i/ppux)*ppuy);
         }
         context.stroke();
@@ -233,10 +235,197 @@ function Graph(figureId) {
     this.update();
 }
 
+function GraphExp(figureId) {
+    let thisSim = this;
+
+    this.figureId = figureId;
+    this.figure = document.getElementById(figureId);
+    
+    this.canvas = document.querySelector("#" + figureId + " .canvas");
+    let canvas = this.canvas;
+    let context = this.canvas.getContext('2d');
+    this.ppux = 50;
+    this.ppuy = 1.5;
+    let ppux = this.ppux;
+    let ppuy = this.ppuy;
+    let ppu = canvas.width / 25;
+
+    this.interval = 25;
+    this.res = 10;
+    let res = this.res;
+    this.values = [];
+
+    this.getCharWidth = function() {return parseFloat(document.querySelector("#" + figureId + " .wInput").value)};
+    this.getCharHeight = function() {return parseFloat(document.querySelector("#" + figureId + " .hInput").value)};
+    this.getRainVelocity = function() {return parseFloat(document.querySelector("#" + figureId + " .vrInput").value)};
+    this.getDensity = function() {return parseFloat(document.querySelector("#" + figureId + " .sInput").value)};
+    this.getDistance = function() {return parseFloat(document.querySelector("#" + figureId + " .dInput").value)};
+    if(document.querySelector("#" + figureId + " .tInput") != null) {
+        this.getAngle = function() {return parseFloat(document.querySelector("#" + figureId + " .tInput").value)*Math.PI}
+    } else {
+        this.getAngle = function() {return 0};
+    }
+
+
+    this.R = function(v) {
+        s = thisSim.getDensity();
+        w = thisSim.getCharWidth();
+        h = thisSim.getCharHeight();
+        vr = thisSim.getRainVelocity();
+        D = thisSim.getDistance();
+        t = thisSim.getAngle();
+
+        return s*w*vr*D*Math.cos(t)/v + s*h*D*Math.abs(v-vr*Math.sin(t))/v;
+    }
+
+    this.update = function() {
+        context.clearRect(0,0,canvas.width,canvas.height);
+
+        context.fillStyle = "red";
+        for (let j=0; j<thisSim.values.length; j++) {
+            context.fillRect(j*res+50, canvas.height, res-5, -average(thisSim.values[j]))
+        }
+
+        context.fillStyle = "blue";
+        context.strokeStyle = "blue";
+
+        context.lineWidth = 3;
+        context.beginPath();
+        context.moveTo(1, canvas.height - thisSim.R(1/ppux)*ppuy);
+        for (let i=1; i<=canvas.width; i++) {
+            context.lineTo(i, canvas.height - thisSim.R(i/ppux)*ppuy);
+        }
+        context.stroke();
+    }
+
+    this.counter = 10;
+
+    this.reset = function() {
+        thisSim.values = [];
+        for (let i=50; i<=canvas.width; i+=res) {
+            thisSim.values.push([]);
+        }
+        thisSim.update();
+        thisSim.counter = 10;
+    }
+
+    this.play = function() {
+        let charWidth = thisSim.getCharWidth();
+        let charHeight = thisSim.getCharHeight();
+        let rainVelocity = thisSim.getRainVelocity();
+        let density = thisSim.getDensity();
+        let distance = thisSim.getDistance();
+        let angle = thisSim.getAngle();
+
+        for (let j=0; j<thisSim.values.length; j++) {
+
+            let currentPos = 0;
+            let wetness = 0;
+            let drops = [];
+            let grain = 1;
+
+            let velocity = (j*res+50)/ppux;
+
+            for(let i=0; i<=canvas.width; i+=grain) {
+                for(let k=0; k<=canvas.height; k+=grain) {
+                    if(Math.random() < density*grain*grain/(ppu*ppu)) {
+                        drops.push({x:i/ppu+Math.random()*grain, y:k/ppu+Math.random()*grain});
+                    }
+                }
+            }
+
+            while (currentPos < distance) {
+                currentPos += velocity*(thisSim.interval/1000);
+
+                for(let i=0; i<=canvas.width; i+=grain) {
+                    if(Math.random() < density*grain*Math.cos(angle)*rainVelocity*(thisSim.interval/1000)/ppu) {
+                        drops.push({x:i/ppu+Math.random()*grain, y:Math.random()*rainVelocity*(thisSim.interval/1000)});
+                    }
+                }
+
+                if(angle != 0) {
+                    if(angle > 0) {
+                        for(let i=0; i<=canvas.height; i+=grain) {
+                            if(Math.random() < density*grain*Math.sin(angle)*rainVelocity*(thisSim.interval/1000)/ppu) {
+                                drops.push({x:Math.random()*rainVelocity*(thisSim.interval/1000), y:i/ppu+Math.random()*grain});
+                            }
+                        }
+                    } else {
+                        for(let i=0; i<=canvas.height; i+=grain) {
+                            if(Math.random() < -density*grain*Math.sin(angle)*rainVelocity*(thisSim.interval/1000)/ppu) {
+                                drops.push({x:25-Math.random()*rainVelocity*(thisSim.interval/1000), y:i/ppu+Math.random()*grain});
+                            }
+                        }
+                    }
+                }
+
+                let deleteList = [];
+
+                for(let drop of drops) {
+                    drop.x += rainVelocity*(thisSim.interval/1000)*Math.sin(angle);
+                    drop.y += rainVelocity*(thisSim.interval/1000)*Math.cos(angle);
+                    if(drop.y > canvas.height/ppu) {
+                        deleteList.push(drop);
+                    }
+                    if(drop.x <= currentPos+3 && drop.x >= currentPos+3-charWidth && 
+                        drop.y >= canvas.height/ppu - charHeight) {
+                        deleteList.push(drop);
+                        wetness++;
+                    }
+                }
+
+                for(let drop of deleteList) {
+                    let index = drops.indexOf(drop);
+                    if (index > -1) {
+                        drops.splice(index, 1);
+                    }
+                }
+            }
+            thisSim.values[j].push(wetness);
+        }
+
+        thisSim.update();
+    }
+    
+    document.querySelector("#" + figureId + " .wInput").addEventListener("input", this.reset);
+    document.querySelector("#" + figureId + " .hInput").addEventListener("input", this.reset);
+    document.querySelector("#" + figureId + " .vrInput").addEventListener("input", this.reset);
+    document.querySelector("#" + figureId + " .tInput").addEventListener("input", this.reset);
+    document.querySelector("#" + figureId + " .sInput").addEventListener("input", this.reset);
+    document.querySelector("#" + figureId + " .dInput").addEventListener("input", this.reset);
+
+    this.reset();
+
+    window.setInterval(function() {
+        if(isElementInViewport(canvas)) {
+            if(thisSim.counter > 0) {
+                thisSim.play();
+                thisSim.counter--;
+            }
+        }
+    }, 100);
+}
+
 var sim1 = new Sim("sim1");
 var sim2 = new Sim("sim2");
 var graph3 = new Graph("graph3");
 var sim4 = new Sim("sim4");
+var graph5 = new GraphExp("graph5");
+
+
+function animation() {
+    animation.disabled = true;
+    statistics.disabled = false;
+    sim4.figure.style.display = "flex";
+    graph5.figure.style.display = "none";
+}
+
+function statistics() {
+    animation.disabled = false;
+    statistics.disabled = true;
+    sim4.figure.style.display = "none";
+    graph5.figure.style.display = "flex";
+}
 
 // function Sim(figureId, getAcc, adjustAcc, adjustVel, adjustPV) {
 //     sims.push(this);
@@ -471,3 +660,4 @@ var sim4 = new Sim("sim4");
 // });
 
 // createSims();
+

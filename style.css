@@ -166,6 +166,17 @@ td img.gallery {
     margin: auto;
 }
 
+button {
+    padding: 1vh 2vw;
+    font-size: 18pt;
+    background-color: var(--background);
+    border: none;
+    margin: 1vh auto;
+    font-family: Montserrat;
+    color: white;
+    vertical-align: middle;
+}
+
 #footerTransition {
     height: 20vh;
     margin-top: 10vh;
